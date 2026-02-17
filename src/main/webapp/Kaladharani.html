@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaladharani – Cultural Club</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #e67e22;
+            --secondary: #e74c3c;
+            --accent: #f39c12;
+            --dark: #2c3e50;
+            --light: #fef5e7;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+            background: #fff5e7;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            border-bottom: 2px solid var(--light);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Brush Script MT', cursive;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li:not(:last-child)::after {
+            content: '—';
+            margin: 0 1rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after { width: 100%; }
+        
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://picsum.photos/seed/dance-performance/1920/1080.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(230, 126, 34, 0.2) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            animation: fadeInUp 1s ease 0.4s both;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.6);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        section {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            font-family: 'Brush Script MT', cursive;
+            color: var(--primary);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.05), rgba(231, 76, 60, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .dashboard-card:hover::before { opacity: 1; }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .activities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .activity-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .activity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.05), rgba(231, 76, 60, 0.05));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .activity-card:hover::before { opacity: 1; }
+        
+        .activity-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        
+        .events {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .event-card {
+            background: linear-gradient(135deg, var(--light), #fdeaa7);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .event-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+        }
+        
+        .event-card:hover::before {
+            top: -70%;
+            right: -70%;
+        }
+        
+        .event-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .event-date {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            height: 200px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.3), rgba(231, 76, 60, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover::after { opacity: 1; }
+        
+        .join-section {
+            background: linear-gradient(135deg, rgba(230, 126, 34, 0.1), rgba(231, 76, 60, 0.1));
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .join-info {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .join-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+        }
+        
+        .join-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.2rem; }
+            .nav-links { display: none; }
+            .nav-links li:not(:last-child)::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Kaladharani</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#join">Join Now</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Kaladharani</h1>
+            <p>Celebrating Culture Through Dance, Music & Drama</p>
+            <a href="#join" class="cta-button">Join Now</a>
+        </div>
+    </section>
+
+    <section id="dashboard">
+        <h2 class="section-title">Dashboard</h2>
+        <div class="dashboard">
+            <div class="dashboard-card">
+                <div class="dashboard-icon">ℹ️</div>
+                <h3>About</h3>
+                <p>Learn about our cultural mission and values</p>
+                <a href="#about" style="color: var(--primary); font-weight: bold;">Explore →</a>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-icon">👥</div>
+                <h3>Join</h3>
+                <p>Become part of our vibrant cultural community</p>
+                <a href="#join" style="color: var(--primary); font-weight: bold;">Join Now →</a>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-icon">🎭</div>
+                <h3>Activities</h3>
+                <p>Discover our dance, music, drama and cultural programs</p>
+                <a href="#activities" style="color: var(--primary); font-weight: bold;">View Activities →</a>
+            </div>
+            <div class="dashboard-card">
+                <div class="dashboard-icon">📅</div>
+                <h3>Events</h3>
+                <p>Stay updated with our upcoming cultural events</p>
+                <a href="#events" style="color: var(--primary); font-weight: bold;">See Events →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title">About Kaladharani</h2>
+        <p style="text-align: center; font-size: 1.2rem; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+            Kaladharani is a vibrant cultural hub dedicated to preserving and promoting traditional 
+            and contemporary arts. Through dance, music, drama, and grand cultural festivals, 
+            we bring communities together and celebrate the rich tapestry of our cultural heritage.
+        </p>
+    </section>
+
+    <section id="activities">
+        <h2 class="section-title">Our Cultural Activities</h2>
+        <div class="activities">
+            <div class="activity-card">
+                <div class="activity-icon">💃</div>
+                <h3>Dance</h3>
+                <p>Classical, folk, and contemporary dance forms</p>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🎵</div>
+                <h3>Music</h3>
+                <p>Vocal and instrumental musical traditions</p>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🎭</div>
+                <h3>Drama</h3>
+                <p>Theatrical performances and street plays</p>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon">🎉</div>
+                <h3>Cultural Fests</h3>
+                <p>Grand celebrations of arts and culture</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="events">
+        <h2 class="section-title">Upcoming Cultural Events</h2>
+        <div class="events">
+            <div class="event-card">
+                <div class="event-date">20 Nov 2024</div>
+                <h3 class="event-title">Classical Dance Night</h3>
+                <p>Experience the grace of Bharatanatyam and Kathak</p>
+            </div>
+            <div class="event-card">
+                <div class="event-date">25 Nov 2024</div>
+                <h3 class="event-title">Music Concert</h3>
+                <p>Live performances by renowned musicians</p>
+            </div>
+            <div class="event-card">
+                <div class="event-date">5 Dec 2024</div>
+                <h3 class="event-title">Annual Cultural Fest</h3>
+                <p>Three-day celebration of arts and traditions</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <h2 class="section-title">Dance Gallery</h2>
+        <div class="gallery">
+            <div class="gallery-item">
+                <img src="https://picsum.photos/seed/bharatanatyam-dance/300/200.jpg" alt="Bharatanatyam Dance">
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/seed/kathak-dance/300/200.jpg" alt="Kathak Dance">
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/seed/folk-dance/300/200.jpg" alt="Folk Dance">
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/seed/contemporary-dance/300/200.jpg" alt="Contemporary Dance">
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/seed/group-dance/300/200.jpg" alt="Group Dance">
+            </div>
+            <div class="gallery-item">
+                <img src="https://picsum.photos/seed/dance-performance/300/200.jpg" alt="Dance Performance">
+            </div>
+        </div>
+    </section>
+
+    <section id="join">
+        <div class="join-section">
+            <h2 class="section-title">Join Kaladharani</h2>
+            <div class="join-info">
+                <p style="font-size: 1.2rem; margin-bottom: 1.5rem;">
+                    Ready to embark on a cultural journey with us? Join Kaladharani today and become part of our vibrant community of artists, performers, and culture enthusiasts.
+                </p>
+                <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    For membership inquiries, please contact us at:
+                </p>
+                <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-bottom: 2rem;">
+                    📧 contact@kaladharani.org<br>
+                    📞 +91 98765 43210
+                </p>
+                <a href="mailto:contact@kaladharani.org" class="join-button">Join Now</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Kaladharani – Cultural Club | Celebrating Arts & Culture Since 2015</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('.activity-card, .event-card, .dashboard-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

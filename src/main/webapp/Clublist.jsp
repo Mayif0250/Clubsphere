@@ -1,0 +1,608 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubSphere - College Clubs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5e72e4;
+            --secondary-color: #825ee4;
+            --accent-color: #f5365c;
+            --dark-color: #32325d;
+            --light-color: #f4f5f7;
+            --border-color: #e9ecef;
+            --success-color: #2dce89;
+            --warning-color: #fb6340;
+            --info-color: #11cdef;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e8ebff 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(94, 114, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(130, 94, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(245, 54, 92, 0.03) 0%, transparent 30%);
+            z-index: -1;
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Clubs Section */
+        .clubs-section {
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: #718096;
+            font-size: 1rem;
+        }
+
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .club-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .club-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .club-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .club-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .club-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
+        }
+
+        .club-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .club-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            top: -40px;
+            background-color: white;
+        }
+
+        .club-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .club-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            position: relative;
+            top: -20px;
+        }
+
+        .club-description {
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .club-focus {
+            background-color: rgba(94, 114, 228, 0.1);
+            border-left: 3px solid var(--primary-color);
+            padding: 0.8rem 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+            text-align: center;
+        }
+
+        .club-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .club-members {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .club-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--warning-color);
+            font-size: 0.9rem;
+        }
+
+        .club-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .club-btn {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .join-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .join-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .join-btn.joined {
+            background-color: var(--success-color);
+        }
+
+        .view-btn {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .view-btn:hover {
+            background-color: var(--border-color);
+            transform: translateY(-2px);
+        }
+
+        /* Back to Home Button */
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(94, 114, 228, 0.3);
+        }
+
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(94, 114, 228, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .clubs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">ClubSphere</h1>
+            <p class="page-subtitle">Discover and join the vibrant clubs at our college</p>
+        </div>
+
+        <!-- Clubs Section -->
+        <div class="clubs-section">
+            <div class="section-header">
+                <h2 class="section-title">RGUKT Ongole - Official Student Clubs</h2>
+                <p class="section-subtitle">Each club offers unique opportunities for growth and learning</p>
+            </div>
+
+            <div class="clubs-grid">
+                <!-- TechXcel Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc9f72296?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-category">Technology</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="https://picsum.photos/seed/techxcel-logo/80/80.jpg" alt="TechXcel Logo">
+                        </div>
+                        <h3 class="club-name">TechXcel</h3>
+                        <div class="club-focus">
+                            Coding, tech events, quizzes, and workshops.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>85 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="1"> <!-- TechXcel’s ID -->
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+
+                           <a href="TechXcel.html">
+                            <button class="club-btn view-btn">View</button>
+                           </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PixelRO Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-category">Arts & Culture</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="https://picsum.photos/seed/pixelro-logo/80/80.jpg" alt="PixelRO Logo">
+                        </div>
+                        <h3 class="club-name">PixelRO</h3>
+                        <div class="club-focus">
+                            Photography, video editing, digital design, and content creation.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>72 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="2"> <!-- TechXcel’s ID -->
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+                           <a href="PixelRo.html">
+                            <button class="club-btn view-btn">View</button>
+                           </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ArtiX Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80');">
+                        <span class="club-category">Academic</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="images/ArtixLogo.jpeg" alt="ArtiX Logo">
+                        </div>
+                        <h3 class="club-name">ArtiX</h3>
+                        <div class="club-focus">
+                            Debates, public speaking, creative writing, and personality development.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>64 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.6</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="3"> <!-- TechXcel’s ID -->
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+                            <a href="Artix.html">
+                            <button class="club-btn view-btn">View</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KhelSaathi Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-category">Sports & Fitness</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="https://picsum.photos/seed/khelsaathi-logo/80/80.jpg" alt="KhelSaathi Logo">
+                        </div>
+                        <h3 class="club-name">KhelSaathi</h3>
+                        <div class="club-focus">
+                            Sports tournaments, physical fitness, Yoga, and mental health.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>98 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="4"> <!-- TechXcel’s ID -->
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+                            <a href="Khelsaathi.html">
+                            <button class="club-btn view-btn">View</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SarvaSrijana Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-category">Arts & Culture</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="https://picsum.photos/seed/sarvasrijana-logo/80/80.jpg" alt="SarvaSrijana Logo">
+                        </div>
+                        <h3 class="club-name">SarvaSrijana</h3>
+                        <div class="club-focus">
+                            Drawing, painting, literature, poetry, and StoryTelling.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>56 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.7</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="5">
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+                            <a href="SarvaSrijana.html">
+                            <button class="club-btn view-btn" >View</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kaladharani Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-category">Arts & Culture</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="https://picsum.photos/seed/kaladharani-logo/80/80.jpg" alt="Kaladharani Logo">
+                        </div>
+                        <h3 class="club-name">Kaladharani</h3>
+                        <div class="club-focus">
+                            Dance, music, drama, and cultural fests.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>112 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.8</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="8">
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+                            <a href="Kaladharani.html">
+                            <button class="club-btn view-btn">View</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ICRO Club -->
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-category">Technology</span>
+                    </div>
+                    <div class="club-content">
+                        <div class="club-logo">
+                            <img src="https://picsum.photos/seed/icro-logo/80/80.jpg" alt="ICRO Logo">
+                        </div>
+                        <h3 class="club-name">ICRO</h3>
+                        <div class="club-focus">
+                            Startup ideas, problem-solving, innovation, and prototypes.
+                        </div>
+                        <div class="club-stats">
+                            <div class="club-members">
+                                <i class="fas fa-users"></i>
+                                <span>48 members</span>
+                            </div>
+                            <div class="club-rating">
+                                <i class="fas fa-star"></i>
+                                <span>4.9</span>
+                            </div>
+                        </div>
+                        <div class="club-actions">
+                            <form action="join-club" method="post">
+   								<input type="hidden" name="clubId" value="7">
+    							<button type="submit" class="club-btn join-btn">Join Club</button>
+							</form>
+                            <a href="ICRO.html">
+                            <button class="club-btn view-btn" >View</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home Button -->
+        <a href="homepage" class="back-home">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </main>
+
+    <script>
+
+        // View club details
+        function viewClub(clubName) {
+            alert(`Viewing details for ${clubName}`);
+        }
+    </script>
+</body>
+</html>

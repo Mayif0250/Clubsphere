@@ -1,0 +1,107 @@
+/* --- Variable Definitions --- */
+:root {
+    --body-gradient: linear-gradient(to right, #654ea3, #eaafc8);
+    --button-color: #7b68ee;
+    --button-hover-color: #6a5acd;
+    --text-color: #2c3e50;
+    --label-color: #34495e;
+    --border-color: #dfe6e9;
+    --error-color: #e74c3c;
+    --success-color: #27ae60;
+}
+
+/* --- Base and Body Styling --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: var(--body-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- Main Container & Animation --- */
+.forgot-password-container {
+    max-width: 450px;
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    padding: 40px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeIn 0.8s ease-out forwards;
+    text-align: center;
+    overflow: hidden; /* Ensures content slides smoothly */
+}
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+/* --- Form Header Styling --- */
+.form-header { margin-bottom: 30px; }
+.form-header .logo { font-size: 32px; color: var(--button-color); margin-bottom: 10px; }
+.form-header h2 { font-size: 28px; color: var(--text-color); margin-bottom: 5px; }
+.form-header p { color: #777; line-height: 1.6; }
+
+/* --- Input Group Styling --- */
+.input-group { position: relative; margin-bottom: 25px; text-align: left; }
+.input-group label { display: block; font-size: 14px; font-weight: 500; color: var(--label-color); margin-bottom: 7px; }
+.input-wrapper { position: relative; }
+.input-wrapper i.fa-envelope, .input-wrapper i.fa-lock, .input-wrapper i.fa-key, .input-wrapper i.fa-shield-alt { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #aaa; transition: color 0.3s ease; }
+.input-wrapper input { width: 100%; padding: 14px 15px 14px 45px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; font-family: 'Poppins', sans-serif; outline: none; transition: all 0.3s ease; }
+.input-wrapper input:focus { border-color: var(--button-color); box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.2); }
+.input-wrapper input:focus + i { color: var(--button-color); }
+.input-wrapper input:focus ~ .toggle-password i { color: var(--button-color); }
+
+
+/* Password Toggle Icon */
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.toggle-password:hover i {
+    color: var(--button-color);
+}
+
+
+/* Validation Styles */
+.input-group.error input { border-color: var(--error-color); }
+.input-group.error .error-message { opacity: 1; transform: translateY(0); }
+.error-message { color: var(--error-color); font-size: 12px; padding-top: 5px; opacity: 0; transition: all 0.3s ease; transform: translateY(-5px); }
+
+/* --- Button Styling --- */
+.submit-btn { width: 100%; padding: 15px; border: none; border-radius: 8px; background: var(--button-color); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; position: relative; }
+.submit-btn:hover:not(:disabled) { background-color: var(--button-hover-color); }
+.submit-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+.submit-btn .spinner { display: none; border: 3px solid rgba(255, 255, 255, 0.5); border-radius: 50%; border-top-color: #fff; width: 22px; height: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 1s ease-in-out infinite; }
+.submit-btn.loading .btn-text { visibility: hidden; }
+.submit-btn.loading .spinner { display: block; }
+
+/* --- Content Visibility & Transitions --- */
+.form-content, .success-message { display: none; }
+.form-content.active, .success-message.active { display: block; animation: contentFadeIn 0.5s ease-out forwards; }
+@keyframes contentFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.success-icon { font-size: 48px; color: var(--success-color); margin-bottom: 15px; }
+.success-message h2 { font-size: 28px; color: var(--text-color); margin-bottom: 5px; }
+.success-message p { color: #777; line-height: 1.6; margin-bottom: 20px; }
+
+/* --- Back to Login Link --- */
+.back-to-login { text-align: center; margin-top: 30px; }
+.back-to-login a { color: var(--button-color); font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.back-to-login a:hover { text-decoration: underline; }
+
+/* --- Toast Notification --- */
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; border-radius: 50px; color: #fff; font-weight: 500; opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000; }
+#toast.show { opacity: 1; visibility: visible; bottom: 50px; }
+#toast.success { background-color: var(--success-color); }
+#toast.error { background-color: var(--error-color); }
+
+@keyframes spin { to { transform: rotate(360deg); } }

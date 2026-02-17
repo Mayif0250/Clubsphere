@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechXcel - Technical & Educational Club</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #0066cc;
+            --secondary: #00a86b;
+            --accent: #ff6b6b;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover { opacity: 0.8; }
+        
+        main { margin-top: 80px; }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://picsum.photos/seed/tech/1200/600') center/cover;
+            color: white;
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover { transform: translateY(-5px); }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .events {
+            background: white;
+            padding: 4rem 2rem;
+        }
+        
+        .event-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .event-card {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .event-date {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .activities {
+            background: var(--light);
+        }
+        
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .activity-item {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .join {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .join-btn {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            margin-top: 2rem;
+        }
+        
+        .join-btn:hover { background: var(--accent); }
+        
+        .success-message {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            display: none;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">TechXcel</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#join">Join</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <h1>Welcome to TechXcel</h1>
+            <p>Empowering students through coding, tech events, quizzes, and workshops</p>
+            <a href="#join" class="btn">Join Our Community</a>
+        </section>
+
+        <section id="about" class="container">
+            <h2 class="section-title">About TechXcel</h2>
+            <div class="about-grid">
+                <div class="card">
+                    <div class="card-icon">💻</div>
+                    <h3>Coding Excellence</h3>
+                    <p>Master programming languages and software development through hands-on projects and mentorship.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>Tech Innovation</h3>
+                    <p>Explore cutting-edge technologies and participate in hackathons and innovation challenges.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧠</div>
+                    <h3>Knowledge Sharing</h3>
+                    <p>Learn from industry experts and peers through workshops, seminars, and collaborative projects.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="events" class="events">
+            <div class="container">
+                <h2 class="section-title">Upcoming Events</h2>
+                <div class="event-list">
+                    <div class="event-card">
+                        <div class="event-date">Dec 15, 2024</div>
+                        <h3>AI Workshop</h3>
+                        <p>Introduction to Machine Learning with Python</p>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-date">Dec 20, 2024</div>
+                        <h3>Tech Quiz</h3>
+                        <p>Annual Technology Quiz Competition</p>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-date">Jan 5, 2025</div>
+                        <h3>Web Dev Bootcamp</h3>
+                        <p>Full-stack Web Development Intensive</p>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-date">Jan 12, 2025</div>
+                        <h3>Coding Challenge</h3>
+                        <p>24-hour Competitive Programming Event</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="activities" class="activities container">
+            <h2 class="section-title">Our Activities</h2>
+            <div class="activity-grid">
+                <div class="activity-item">
+                    <div class="activity-icon">👨‍💻</div>
+                    <h3>Coding Sessions</h3>
+                    <p>Weekly coding practice and problem-solving</p>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🎯</div>
+                    <h3>Tech Quizzes</h3>
+                    <p>Monthly tech trivia and knowledge challenges</p>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🛠️</div>
+                    <h3>Workshops</h3>
+                    <p>Hands-on learning with latest technologies</p>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">🏆</div>
+                    <h3>Competitions</h3>
+                    <p>Hackathons and coding contests</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="join" class="join">
+            <h2 class="section-title">Join TechXcel Today</h2>
+            <p>Be part of our growing tech community</p>
+            <button class="btn join-btn" onclick="handleJoin()">Join Now</button>
+            <div class="success-message" id="successMessage">
+                🎉 Welcome to TechXcel! Check your email for next steps.
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TechXcel Club. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Join button handler
+        function handleJoin() {
+            const button = document.querySelector('.join-btn');
+            const message = document.getElementById('successMessage');
+            
+            button.textContent = 'Joining...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.textContent = 'Joined!';
+                button.style.background = '#4caf50';
+                message.style.display = 'block';
+                
+                setTimeout(() => {
+                    button.textContent = 'Join Now';
+                    button.style.background = '';
+                    button.disabled = false;
+                    message.style.display = 'none';
+                }, 3000);
+            }, 1000);
+        }
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .event-card, .activity-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubSphere - Community Guidelines</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5e72e4;
+            --secondary-color: #825ee4;
+            --accent-color: #f5365c;
+            --dark-color: #32325d;
+            --light-color: #f4f5f7;
+            --border-color: #e9ecef;
+            --success-color: #2dce89;
+            --warning-color: #fb6340;
+            --info-color: #11cdef;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e8ebff 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(94, 114, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(130, 94, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(245, 54, 92, 0.03) 0%, transparent 30%);
+            z-index: -1;
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .guidelines-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .guidelines-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .guidelines-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .last-updated {
+            display: inline-block;
+            background-color: rgba(94, 114, 228, 0.1);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Guidelines Content */
+        .guidelines-content {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 3rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .guidelines-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .guidelines-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 70%;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .section-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .section-content {
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .guidelines-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .guidelines-list li {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .guidelines-list li i {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .highlight {
+            background-color: rgba(94, 114, 228, 0.1);
+            color: var(--primary-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background-color: rgba(245, 54, 92, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .warning-box p {
+            margin-bottom: 0;
+            color: var(--dark-color);
+        }
+
+        .success-box {
+            background-color: rgba(45, 206, 137, 0.1);
+            border-left: 4px solid var(--success-color);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .success-box p {
+            margin-bottom: 0;
+            color: var(--dark-color);
+        }
+
+        /* Table of Contents */
+        .toc {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .toc-list {
+            list-style: none;
+            column-count: 2;
+            column-gap: 2rem;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+            break-inside: avoid;
+        }
+
+        .toc-list a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .toc-list a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        /* Contact Info */
+        .contact-info {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        /* Back to Home Button */
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(94, 114, 228, 0.3);
+        }
+
+        .back-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(94, 114, 228, 0.4);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .guidelines-title {
+                font-size: 2.2rem;
+            }
+
+            .guidelines-content {
+                padding: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .toc-list {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Guidelines Header -->
+        <div class="guidelines-header">
+            <h1 class="guidelines-title">Community Guidelines</h1>
+            <p class="guidelines-subtitle">Building a positive, inclusive, and respectful community for all students</p>
+            <div class="last-updated">
+                <i class="fas fa-calendar-alt"></i> Last Updated: November 15, 2023
+            </div>
+        </div>
+
+        <!-- Guidelines Content -->
+        <div class="guidelines-content">
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3 class="toc-title">Table of Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#introduction">1. Introduction</a></li>
+                    <li><a href="#our-commitment">2. Our Commitment</a></li>
+                    <li><a href="#community-standards">3. Community Standards</a></li>
+                    <li><a href="#prohibited-content">4. Prohibited Content</a></li>
+                    <li><a href="#reporting">5. Reporting Violations</a></li>
+                    <li><a href="#enforcement">6. Enforcement</a></li>
+                    <li><a href="#contact">7. Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Introduction Section -->
+            <div class="guidelines-section" id="introduction">
+                <h2 class="section-title">
+                    <i class="fas fa-handshake section-icon"></i>
+                    Introduction
+                </h2>
+                <div class="section-content">
+                    <p>Welcome to <span class="highlight">ClubSphere</span>, the platform where students connect, collaborate, and grow through club activities. These Community Guidelines are designed to ensure that ClubSphere remains a safe, respectful, and inclusive environment for all users.</p>
+                    <p>By using ClubSphere, you agree to abide by these guidelines and help us maintain a positive community atmosphere. We believe that everyone deserves to participate in club activities free from harassment, discrimination, and other harmful behaviors.</p>
+                </div>
+            </div>
+
+            <!-- Our Commitment Section -->
+            <div class="guidelines-section" id="our-commitment">
+                <h2 class="section-title">
+                    <i class="fas fa-heart section-icon"></i>
+                    Our Commitment
+                </h2>
+                <div class="section-content">
+                    <p>At ClubSphere, we are committed to:</p>
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div><strong>Inclusivity:</strong> Creating an environment where all students feel welcome and valued, regardless of background, identity, or beliefs</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div><strong>Safety:</strong> Protecting our community from harmful content, harassment, and abusive behavior</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div><strong>Respect:</strong> Fostering mutual respect and constructive communication among all members</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div><strong>Transparency:</strong> Being clear about our policies and how we enforce them</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <div><strong>Growth:</strong> Supporting personal and professional development through meaningful club experiences</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Community Standards Section -->
+            <div class="guidelines-section" id="community-standards">
+                <h2 class="section-title">
+                    <i class="fas fa-users section-icon"></i>
+                    Community Standards
+                </h2>
+                <div class="section-content">
+                    <p>To maintain a positive community environment, all users must follow these standards:</p>
+                    
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--dark-color);">Be Respectful</h3>
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Treat others with kindness and respect, even when you disagree</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Value diverse perspectives and experiences</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Use inclusive language and avoid stereotypes</div>
+                        </li>
+                    </ul>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--dark-color);">Be Constructive</h3>
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Share feedback in a helpful and supportive manner</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Focus on ideas and content, not personal attacks</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Contribute positively to discussions and activities</div>
+                        </li>
+                    </ul>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--dark-color);">Be Authentic</h3>
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Use your real identity and accurate information</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Be honest in your interactions and communications</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Take responsibility for your actions and words</div>
+                        </li>
+                    </ul>
+
+                    <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; color: var(--dark-color);">Be Responsible</h3>
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Follow university policies and applicable laws</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Respect intellectual property and copyright</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-angle-right"></i>
+                            <div>Help maintain a safe environment by reporting violations</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Prohibited Content Section -->
+            <div class="guidelines-section" id="prohibited-content">
+                <h2 class="section-title">
+                    <i class="fas fa-ban section-icon"></i>
+                    Prohibited Content and Behavior
+                </h2>
+                <div class="section-content">
+                    <p>The following content and behaviors are strictly prohibited on ClubSphere:</p>
+                    
+                    <div class="warning-box">
+                        <p><strong>Harassment and Bullying:</strong> Any form of harassment, bullying, threats, or personal attacks targeting individuals or groups</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <p><strong>Hate Speech:</strong> Content that promotes discrimination, prejudice, or violence against individuals or groups based on protected characteristics</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <p><strong>Inappropriate Content:</strong> Sexually explicit content, graphic violence, or any material that would be considered inappropriate in an educational setting</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <p><strong>Spam and Scams:</strong> Unwanted commercial content, phishing attempts, or deceptive practices</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <p><strong>Privacy Violations:</strong> Sharing others' personal information without consent or engaging in doxxing</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <p><strong>Illegal Activities:</strong> Content that promotes or facilitates illegal activities or violates university policies</p>
+                    </div>
+
+                    <div class="warning-box">
+                        <p><strong>Impersonation:</strong> Creating fake accounts or impersonating others, including university staff or organizations</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reporting Violations Section -->
+            <div class="guidelines-section" id="reporting">
+                <h2 class="section-title">
+                    <i class="fas fa-flag section-icon"></i>
+                    Reporting Violations
+                </h2>
+                <div class="section-content">
+                    <p>We encourage all users to help us maintain a safe community by reporting violations of these guidelines. Here's how to report:</p>
+                    
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-mouse-pointer"></i>
+                            <div><strong>In-App Reporting:</strong> Use the report button on any post, comment, or user profile</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <div><strong>Email Reports:</strong> Send detailed reports to <span class="highlight">support@clubsphere.edu</span></div>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <div><strong>Phone Support:</strong> Call our support team at +1 (555) 123-4567 during business hours</div>
+                        </li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p><strong>What to Include in Your Report:</strong> When reporting, please provide as much detail as possible, including screenshots, usernames, dates, and descriptions of the violation. This helps us investigate and take appropriate action more effectively.</p>
+                    </div>
+
+                    <p>All reports are taken seriously and investigated promptly. We will take appropriate action based on the severity and nature of the violation, which may include content removal, warnings, temporary suspensions, or permanent bans.</p>
+                </div>
+            </div>
+
+            <!-- Enforcement Section -->
+            <div class="guidelines-section" id="enforcement">
+                <h2 class="section-title">
+                    <i class="fas fa-gavel section-icon"></i>
+                    Enforcement
+                </h2>
+                <div class="section-content">
+                    <p>We enforce these guidelines fairly and consistently. Consequences for violations may include:</p>
+                    
+                    <ul class="guidelines-list">
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <div><strong>Warnings:</strong> Formal warnings for minor first-time violations</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <div><strong>Temporary Suspension:</strong> Temporary account suspension for repeated or more serious violations</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-times-circle"></i>
+                            <div><strong>Permanent Ban:</strong> Permanent account termination for severe or repeated violations</div>
+                        </li>
+                        <li>
+                            <i class="fas fa-university"></i>
+                            <div><strong>University Referral:</strong> Referral to university authorities for violations that may violate student conduct policies</div>
+                        </li>
+                    </ul>
+
+                    <p>The severity of consequences depends on factors such as the nature of the violation, the user's history, and the impact on the community. We reserve the right to take any action we deem necessary to protect our community.</p>
+                </div>
+            </div>
+
+            <!-- Contact Us Section -->
+            <div class="guidelines-section" id="contact">
+                <h2 class="section-title">
+                    <i class="fas fa-envelope section-icon"></i>
+                    Contact Us
+                </h2>
+                <div class="section-content">
+                    <p>If you have questions about these Community Guidelines or need to report a violation, please contact us:</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <strong>Email:</strong> community@clubsphere.edu
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <strong>Phone:</strong> +1 (555) 123-4567
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <strong>Office:</strong> Student Center, Room 204, University Campus
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <strong>Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to Home Button -->
+        <a href="index.html" class="back-home">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+    </main>
+
+    <script>
+        // Smooth scrolling for table of contents links
+        document.querySelectorAll('.toc-list a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

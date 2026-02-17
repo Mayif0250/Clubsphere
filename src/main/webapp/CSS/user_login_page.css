@@ -1,0 +1,158 @@
+/* --- Variable Definitions --- */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --body-gradient: linear-gradient(to right, #654ea3, #eaafc8);
+    --button-color: #7b68ee;
+    --button-hover-color: #6a5acd;
+    --text-color: #2c3e50;
+    --label-color: #34495e;
+    --border-color: #dfe6e9;
+    --error-color: #e74c3c;
+    --success-color: #27ae60;
+}
+
+/* --- Base and Body Styling --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: var(--body-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- Main Container & Animation --- */
+.container {
+    display: flex;
+    max-width: 800px; /* Using the smaller container size */
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeIn 0.8s ease-out forwards;
+}
+@keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+/* --- Info Panel Styling --- */
+.info-panel {
+    flex: 1;
+    background: var(--primary-gradient);
+    color: #fff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.info-panel .logo { font-size: 28px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+.info-panel h1 { font-size: 32px; margin-bottom: 15px; line-height: 1.2; }
+.info-panel p { font-size: 15px; font-weight: 300; line-height: 1.6; }
+
+/* --- Form Panel Styling --- */
+.form-panel { 
+    flex: 1.2; 
+    padding: 40px; 
+    background: #fff; 
+}
+.form-panel h2 { font-size: 28px; color: var(--text-color); margin-bottom: 5px; }
+.form-panel .subtitle { color: #777; margin-bottom: 30px; }
+
+/* --- Input Group Styling (with right-aligned icons) --- */
+.input-group { position: relative; margin-bottom: 25px; }
+.input-group label { display: block; font-size: 14px; font-weight: 500; color: var(--label-color); margin-bottom: 7px; }
+.input-wrapper { position: relative; }
+.input-wrapper i { position: absolute; top: 50%; transform: translateY(-50%); color: #aaa; transition: color 0.3s ease; }
+.input-wrapper .fa-envelope, .input-wrapper .fa-lock { right: 15px; }
+.input-wrapper input { width: 100%; padding: 14px 45px 14px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 15px; font-family: 'Poppins', sans-serif; outline: none; transition: all 0.3s ease; }
+.input-wrapper input:focus { border-color: var(--button-color); box-shadow: 0 0 0 3px rgba(123, 104, 238, 0.2); }
+.input-wrapper input:focus ~ i { color: var(--button-color); }
+.toggle-password { right: 15px; cursor: pointer; }
+.input-wrapper input[type="password"] ~ .fa-lock { display: none; } /* Hide static lock icon */
+
+/* Validation Styles */
+.input-group.error input { border-color: var(--error-color); }
+.input-group.error .error-message { opacity: 1; }
+.error-message { color: var(--error-color); font-size: 12px; padding-top: 5px; opacity: 0; transition: opacity 0.3s ease; }
+
+/* START: Modified Options Alignment */
+.options {
+    display: flex;
+    justify-content: space-between; /* This pushes "Remember me" left and "Forgot" right */
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+/* END: Modified Options Alignment */
+.remember-me { display: flex; align-items: center; gap: 8px; }
+.remember-me label { margin: 0; }
+.forgot-password { color: var(--button-color); text-decoration: none; font-weight: 500; }
+.forgot-password:hover { text-decoration: underline; }
+
+/* --- Buttons and Links --- */
+.submit-btn { width: 100%; padding: 15px; border: none; border-radius: 8px; background: var(--button-color); color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; position: relative; }
+.submit-btn:hover:not(:disabled) { background-color: var(--button-hover-color); }
+.submit-btn:disabled, .social-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+.submit-btn .spinner { display: none; border: 3px solid rgba(255, 255, 255, 0.5); border-radius: 50%; border-top-color: #fff; width: 22px; height: 22px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: spin 1s ease-in-out infinite; }
+.submit-btn.loading .btn-text { visibility: hidden; }
+.submit-btn.loading .spinner { display: block; }
+
+.divider { text-align: center; margin: 25px 0; color: #aaa; }
+.divider span { background: #fff; padding: 0 10px; }
+
+/* START: Modified Social Button Size */
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 9px; /* MODIFIED: Reduced padding for a smaller height */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px; /* MODIFIED: Reduced font size */
+    font-weight: 500;
+    gap: 10px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+/* END: Modified Social Button Size */
+.social-btn:hover { background-color: #f5f5f5; }
+.social-btn svg { width: 18px; height: 18px; }
+
+.signup-link { text-align: center; margin-top: 20px; font-size: 14px; }
+.signup-link a { color: var(--button-color); font-weight: 500; text-decoration: none; }
+.signup-link a:hover { text-decoration: underline; }
+
+/* Toast Notification */
+#toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); padding: 15px 30px; border-radius: 50px; color: #fff; font-weight: 500; opacity: 0; visibility: hidden; transition: all 0.4s ease; z-index: 1000; }
+#toast.show { opacity: 1; visibility: visible; bottom: 50px; }
+#toast.success { background-color: var(--success-color); }
+#toast.error { background-color: var(--error-color); }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Responsive Design */
+@media (max-width: 800px) {
+    .container { flex-direction: column; max-width: 450px; }
+    .info-panel { display: none; }
+    .form-panel { padding: 40px 30px; }
+}
+/* Add this to your existing stylesheet */
+
+.input-group .error-message {
+    color: #e74c3c; /* Red color for error text */
+    font-size: 0.9em;
+    height: 1em; /* Reserve space to prevent layout shift */
+    display: block;
+    margin-top: 5px;
+}
+
+.input-group input.error-border {
+    border-color: #e74c3c; /* Red border for invalid input */
+}

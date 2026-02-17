@@ -1,0 +1,83 @@
+/* ... (root variables are unchanged) ... */
+:root{--primary-gradient:linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);--button-color:#7b68ee;--button-hover-color:#6a5acd;--text-color:#2c3e50;--label-color:#34495e;--error-color:#e74c3c;--success-color:#27ae60;--warning-color:#f39c12;--border-color:#dfe6e9;--body-gradient:linear-gradient(to right, #654ea3, #eaafc8)}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: var(--body-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    max-width: 900px; /* DECREASED WIDTH from 1000px */
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+    overflow: hidden;
+    
+    /* START: New Entrance Animation States */
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.6s ease-out;
+    /* END: New Entrance Animation States */
+}
+
+/* This class will be added by JavaScript to trigger the animation */
+.container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- All other styles remain the same --- */
+.info-panel {
+    flex: 1;
+    background: var(--primary-gradient);
+    color: #fff;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-panel {
+    flex: 1.2;
+    padding: 50px 40px;
+    background: #fff;
+}
+
+/* ... (rest of the CSS file is the same as the previous step) ... */
+.info-panel .logo{font-size:28px;font-weight:600;margin-bottom:20px}.info-panel .logo i{margin-right:10px}.info-panel h1{font-size:32px;margin-bottom:15px;line-height:1.2}.info-panel p{font-size:15px;font-weight:300;margin-bottom:30px;line-height:1.6}.info-panel ul{list-style:none}.info-panel ul li{font-size:16px;margin-bottom:15px;display:flex;align-items:center}.info-panel ul li i{font-size:20px;margin-right:12px}.form-panel h2{font-size:28px;color:var(--text-color);margin-bottom:5px;text-align:center}.form-panel .subtitle{color:#777;margin-bottom:25px;text-align:center}.social-login{display:flex;gap:15px;margin-bottom:25px}.social-btn{flex:1;padding:12px;border:1px solid var(--border-color);border-radius:8px;background:transparent;cursor:pointer;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;transition:all .3s ease-in-out}.social-btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,0,0,0.1);border-color:var(--button-color)}.social-btn:active:not(:disabled){transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.1)}.social-btn:disabled{cursor:not-allowed;opacity:0.7}.social-btn i{font-size:18px}.social-btn.google i{color:#DB4437}.social-btn.facebook i{color:#4267B2}.social-btn .spinner{display:none;border:3px solid rgba(255,255,255,0.3);border-radius:50%;border-top-color:#fff;width:20px;height:20px;animation:spin 1s ease-in-out infinite}.social-btn.loading{background-color:var(--button-hover-color);color:#fff}.social-btn.loading .btn-text,.social-btn.loading i{display:none}.social-btn.loading .spinner{display:block}@keyframes spin{to{transform:rotate(360deg)}}.divider{text-align:center;margin-bottom:25px;color:#aaa;position:relative}.divider span{background:#fff;padding:0 10px}.divider::before{content:'';position:absolute;left:0;top:50%;width:100%;height:1px;background:var(--border-color);z-index:-1}.input-group{position:relative;margin-bottom:28px}.input-group label{display:block;font-size:14px;font-weight:500;color:var(--label-color);margin-bottom:7px;text-align:left}.input-group i{position:absolute;right:15px;top:50%;transform:translateY(25%);color:#aaa;transition:color .3s ease}.input-group input{width:100%;padding:14px 45px 14px 15px;border:1px solid var(--border-color);border-radius:8px;font-size:15px;font-family:'Poppins',sans-serif;outline:none;transition:border-color .3s ease,box-shadow .3s ease}.input-group input:focus{border-color:var(--button-color);box-shadow:0 0 0 3px rgba(123,104,238,0.2)}.input-group input:focus ~ i{color:var(--button-color)}.input-group.success input{border-color:var(--success-color)}.input-group.error input{border-color:var(--error-color)}.input-group.error input:focus{box-shadow:0 0 0 3px rgba(231,76,60,0.2)}.error-message{color:var(--error-color);font-size:12px;text-align:left;padding-left:2px;display:block;height:15px;opacity:0;transition:opacity .3s ease}.input-group.error .error-message{opacity:1}#password-strength-indicator{width:100%;height:20px;margin-top:-15px;margin-bottom:20px;display:flex;align-items:center;gap:10px;transition:all .3s ease}.strength-bar{flex-grow:1;height:6px;border-radius:3px;background-color:#eee}.strength-text{font-size:13px;font-weight:500}#password-strength-indicator.weak .strength-bar{background-color:var(--error-color)}#password-strength-indicator.weak .strength-text{color:var(--error-color)}#password-strength-indicator.medium .strength-bar{background-color:var(--warning-color)}#password-strength-indicator.medium .strength-text{color:var(--warning-color)}#password-strength-indicator.strong .strength-bar{background-color:var(--success-color)}#password-strength-indicator.strong .strength-text{color:var(--success-color)}.terms{display:flex;align-items:center;font-size:13px;color:#555;margin-bottom:25px}.terms input{margin-right:10px}.terms a{color:var(--button-color);text-decoration:none;font-weight:500}.terms a:hover{text-decoration:underline}.submit-btn{width:100%;padding:15px;border:none;border-radius:8px;background:var(--button-color);color:#fff;font-size:16px;font-weight:600;cursor:pointer;transition:background-color .2s ease;position:relative}.submit-btn:hover{background-color:var(--button-hover-color)}.submit-btn:disabled{cursor:not-allowed;background-color:var(--button-hover-color)}.login-link{text-align:center;margin-top:20px;font-size:14px}.login-link a{color:var(--button-color);font-weight:500;text-decoration:none}.login-link a:hover{text-decoration:underline}#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);padding:15px 30px;border-radius:50px;color:#fff;font-weight:500;opacity:0;visibility:hidden;transition:all .4s ease;z-index:1000}
+#toast.show{opacity:1;visibility:visible;bottom:50px}#toast.success{background-color:var(--success-color)}#toast.error{background-color:var(--error-color)}
+/* ... (root variables are unchanged) ... */
+:root{--primary-gradient:linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);--button-color:#7b68ee;--button-hover-color:#6a5acd;--text-color:#2c3e50;--label-color:#34495e;--error-color:#e74c3c;--success-color:#27ae60;--warning-color:#f39c12;--border-color:#dfe6e9;--body-gradient:linear-gradient(to right, #654ea3, #eaafc8)}
+
+/* ... (all other rules are unchanged) ... */
+
+.social-btn i {
+    font-size: 18px;
+}
+
+/* START: Updated Google Icon Color */
+.social-btn.google i {
+    color: #4aa732; /* CHANGED from #DB4437 */
+}
+/* END: Updated Google Icon Color */
+
+.social-btn.facebook i {
+    color: #4267B2;
+}
+
+/* --- All other CSS rules are the same as the previous step --- */
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Poppins',sans-serif;background-image:var(--body-gradient);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}.container{display:flex;max-width:900px;width:100%;background:#fff;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,0.1);overflow:hidden;opacity:0;transform:translateY(30px);transition:opacity .8s ease-out,transform .6s ease-out}.container.visible{opacity:1;transform:translateY(0)}.info-panel{flex:1;background:var(--primary-gradient);color:#fff;padding:50px 40px;display:flex;flex-direction:column;justify-content:center}.form-panel{flex:1.2;padding:50px 40px;background:#fff}.info-panel .logo{font-size:28px;font-weight:600;margin-bottom:20px}.info-panel .logo i{margin-right:10px}.info-panel h1{font-size:32px;margin-bottom:15px;line-height:1.2}.info-panel p{font-size:15px;font-weight:300;margin-bottom:30px;line-height:1.6}.info-panel ul{list-style:none}.info-panel ul li{font-size:16px;margin-bottom:15px;display:flex;align-items:center}.info-panel ul li i{font-size:20px;margin-right:12px}.form-panel h2{font-size:28px;color:var(--text-color);margin-bottom:5px;text-align:center}.form-panel .subtitle{color:#777;margin-bottom:25px;text-align:center}.social-login{display:flex;gap:15px;margin-bottom:25px}.social-btn{flex:1;padding:12px;border:1px solid var(--border-color);border-radius:8px;background:transparent;cursor:pointer;font-size:15px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;transition:all .3s ease-in-out}.social-btn:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,0,0,0.1);border-color:var(--button-color)}.social-btn:active:not(:disabled){transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,0.1)}.social-btn:disabled{cursor:not-allowed;opacity:0.7}.social-btn .spinner{display:none;border:3px solid rgba(255,255,255,0.3);border-radius:50%;border-top-color:#fff;width:20px;height:20px;animation:spin 1s ease-in-out infinite}.social-btn.loading{background-color:var(--button-hover-color);color:#fff}.social-btn.loading .btn-text,.social-btn.loading i{display:none}.social-btn.loading .spinner{display:block}@keyframes spin{to{transform:rotate(360deg)}}.divider{text-align:center;margin-bottom:25px;color:#aaa;position:relative}.divider span{background:#fff;padding:0 10px}.divider::before{content:'';position:absolute;left:0;top:50%;width:100%;height:1px;background:var(--border-color);z-index:-1}.input-group{position:relative;margin-bottom:28px}.input-group label{display:block;font-size:14px;font-weight:500;color:var(--label-color);margin-bottom:7px;text-align:left}.input-group i{position:absolute;right:15px;top:50%;transform:translateY(25%);color:#aaa;transition:color .3s ease}.input-group input{width:100%;padding:14px 45px 14px 15px;border:1px solid var(--border-color);border-radius:8px;font-size:15px;font-family:'Poppins',sans-serif;outline:none;transition:border-color .3s ease,box-shadow .3s ease}.input-group input:focus{border-color:var(--button-color);box-shadow:0 0 0 3px rgba(123,104,238,0.2)}.input-group input:focus ~ i{color:var(--button-color)}.input-group.success input{border-color:var(--success-color)}.input-group.error input{border-color:var(--error-color)}.input-group.error input:focus{box-shadow:0 0 0 3px rgba(231,76,60,0.2)}.error-message{color:var(--error-color);font-size:12px;text-align:left;padding-left:2px;display:block;height:15px;opacity:0;transition:opacity .3s ease}.input-group.error .error-message{opacity:1}#password-strength-indicator{width:100%;height:20px;margin-top:-15px;margin-bottom:20px;display:flex;align-items:center;gap:10px;transition:all .3s ease}.strength-bar{flex-grow:1;height:6px;border-radius:3px;background-color:#eee}.strength-text{font-size:13px;font-weight:500}#password-strength-indicator.weak .strength-bar{background-color:var(--error-color)}#password-strength-indicator.weak .strength-text{color:var(--error-color)}#password-strength-indicator.medium .strength-bar{background-color:var(--warning-color)}#password-strength-indicator.medium .strength-text{color:var(--warning-color)}#password-strength-indicator.strong .strength-bar{background-color:var(--success-color)}#password-strength-indicator.strong .strength-text{color:var(--success-color)}.terms{display:flex;align-items:center;font-size:13px;color:#555;margin-bottom:25px}.terms input{margin-right:10px}.terms a{color:var(--button-color);text-decoration:none;font-weight:500}.terms a:hover{text-decoration:underline}.submit-btn{width:100%;padding:15px;border:none;border-radius:8px;background:var(--button-color);color:#fff;font-size:16px;font-weight:600;cursor:pointer;transition:background-color .2s ease;position:relative}.submit-btn:hover{background-color:var(--button-hover-color)}.submit-btn:disabled{cursor:not-allowed;background-color:var(--button-hover-color)}.login-link{text-align:center;margin-top:20px;font-size:14px}.login-link a{color:var(--button-color);font-weight:500;text-decoration:none}.login-link a:hover{text-decoration:underline}#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);padding:15px 30px;border-radius:50px;color:#fff;font-weight:500;opacity:0;visibility:hidden;transition:all .4s ease;z-index:1000}
+#toast.show{opacity:1;visibility:visible;bottom:50px}#toast.success{background-color:var(--success-color)}#toast.error{background-color:var(--error-color)}

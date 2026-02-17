@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubSphere - Student Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5e72e4;
+            --secondary-color: #825ee4;
+            --accent-color: #f5365c;
+            --dark-color: #32325d;
+            --light-color: #f4f5f7;
+            --border-color: #e9ecef;
+            --success-color: #2dce89;
+            --warning-color: #fb6340;
+            --info-color: #11cdef;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e8ebff 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(94, 114, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(130, 94, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(245, 54, 92, 0.03) 0%, transparent 30%);
+            z-index: -1;
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.05);
+        }
+
+        .project-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(94, 114, 228, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .notification-icon {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--gradient-2);
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(245, 54, 92, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(245, 54, 92, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 54, 92, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 54, 92, 0); }
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .profile-toggle:hover {
+            background-color: rgba(94, 114, 228, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            overflow: hidden;
+            display: none;
+            z-index: 101;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 1.2rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: all 0.3s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--light-color);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 0.5rem 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-message {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.8rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 70%;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            transition: all 0.4s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .discover-icon {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 10px 20px rgba(94, 114, 228, 0.3);
+        }
+
+        .dashboard-icon {
+            background: var(--gradient-2);
+            color: white;
+            box-shadow: 0 10px 20px rgba(245, 54, 92, 0.3);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--dark-color);
+        }
+
+        .feature-description {
+            color: #718096;
+            margin-bottom: 1.2rem;
+            line-height: 1.7;
+        }
+
+        .feature-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .feature-action:hover {
+            gap: 0.8rem;
+        }
+
+        /* Joined Clubs Section */
+        .clubs-section {
+            margin-bottom: 3rem;
+        }
+
+        .clubs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .club-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .club-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .club-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .club-image::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+        }
+
+        .club-content {
+            padding: 1.5rem;
+        }
+
+        .club-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            color: var(--dark-color);
+        }
+
+        .club-description {
+            color: #718096;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .club-members {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .club-status {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--success-color);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(45, 206, 137, 0.3);
+        }
+
+        .club-role {
+            display: inline-block;
+            background-color: rgba(94, 114, 228, 0.1);
+            color: var(--primary-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.8rem;
+        }
+
+        .club-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .club-action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .view-btn {
+            background-color: rgba(94, 114, 228, 0.1);
+            color: var(--primary-color);
+        }
+
+        .view-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .leave-btn {
+            background-color: rgba(245, 54, 92, 0.1);
+            color: var(--accent-color);
+        }
+
+        .leave-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Dashboard Section */
+        .dashboard-section {
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: 0;
+        }
+
+        .dashboard-card:nth-child(1)::before {
+            background: var(--gradient-1);
+        }
+
+        .dashboard-card:nth-child(2)::before {
+            background: var(--gradient-2);
+        }
+
+        .dashboard-card:nth-child(3)::before {
+            background: var(--gradient-3);
+        }
+
+        .dashboard-card:nth-child(4)::before {
+            background: var(--gradient-4);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .dashboard-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-card:nth-child(1) .dashboard-icon {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 10px 20px rgba(94, 114, 228, 0.3);
+        }
+
+        .dashboard-card:nth-child(2) .dashboard-icon {
+            background: var(--gradient-2);
+            color: white;
+            box-shadow: 0 10px 20px rgba(245, 54, 92, 0.3);
+        }
+
+        .dashboard-card:nth-child(3) .dashboard-icon {
+            background: var(--gradient-3);
+            color: white;
+            box-shadow: 0 10px 20px rgba(17, 205, 239, 0.3);
+        }
+
+        .dashboard-card:nth-child(4) .dashboard-icon {
+            background: var(--gradient-4);
+            color: white;
+            box-shadow: 0 10px 20px rgba(67, 233, 123, 0.3);
+        }
+
+        .dashboard-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dashboard-card:nth-child(1) .dashboard-value {
+            color: var(--primary-color);
+        }
+
+        .dashboard-card:nth-child(2) .dashboard-value {
+            color: var(--accent-color);
+        }
+
+        .dashboard-card:nth-child(3) .dashboard-value {
+            color: var(--info-color);
+        }
+
+        .dashboard-card:nth-child(4) .dashboard-value {
+            color: var(--success-color);
+        }
+
+        .dashboard-description {
+            color: #718096;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .project-name {
+                font-size: 1.3rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .welcome-message {
+                font-size: 1.8rem;
+            }
+
+            .features-grid,
+            .clubs-grid,
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animation for elements on scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo">CS</div>
+            <div class="project-name">ClubSphere</div>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-link">
+                <i class="fas fa-book"></i>
+                <span>My Learnings</span>
+            </a>
+            <a href="#" class="nav-link notification-icon">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+                <span class="notification-badge">3</span>
+            </a>
+            <div class="profile-dropdown">
+                <div class="profile-toggle" id="profileToggle">
+                    <img src="images/MayifShaik.jpeg" alt="Profile" class="profile-avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="dropdown-menu" id="profileDropdown">
+                    <a href="Profile.html" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-heart"></i>
+                        <span>Help Center</span>
+                    </a>
+                    <a href="ChangePassword.html" class="dropdown-item">
+                        <i class="fas fa-gear"></i>
+                        <span>Settings</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="user_login_page.html" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1 class="welcome-message">Welcome back, Mayif!</h1>
+            <p class="welcome-subtitle">Here's what's happening with your clubs today.</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section animate-on-scroll">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon discover-icon">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h3 class="feature-title">Discover Clubs</h3>
+                    <p class="feature-description">Explore new clubs and organizations that match your interests and passions.</p>
+                    <a href="Clublist.html" class="feature-action">
+                        Explore <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('dashboard')">
+                    <div class="feature-icon dashboard-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="feature-title">Dashboard</h3>
+                    <p class="feature-description">View your club activities, events, and progress all in one place.</p>
+                    <a href="#" class="feature-action">
+                        View Dashboard <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Joined Clubs Section -->
+        <section class="clubs-section animate-on-scroll" id="clubs">
+            <h2 class="section-title">Your Clubs</h2>
+            <div class="clubs-grid">
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-status">Member</span>
+                    </div>
+                    <div class="club-content">
+                        <h3 class="club-name">PixelRo</h3>
+                        <p class="club-description">Multi-media Club.<br>Photography, Video Editing, Digital Design and Content Creation.<br></p>
+                        <div class="club-members">
+                            <i class="fas fa-users"></i>
+                            <span>248 members</span>
+                        </div>
+                        <div class="club-role">Active Member</div>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-btn">View Details</button>
+                            <button class="club-action-btn leave-btn">Leave Club</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-status">Member</span>
+                    </div>
+                    <div class="club-content">
+                        <h3 class="club-name">TechXcel</h3>
+                        <p class="club-description">Technical & Educational Club.<br>Coding, Tech Events, Quizzes and Workshops.<br></p>
+                        <div class="club-members">
+                            <i class="fas fa-users"></i>
+                            <span>291 members</span>
+                        </div>
+                        <div class="club-role">Team Lead</div>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-btn">View Details</button>
+                            <button class="club-action-btn leave-btn">Leave Club</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80');">
+                        <span class="club-status">Member</span>
+                    </div>
+                    <div class="club-content">
+                        <h3 class="club-name">ArtiX</h3>
+                        <p class="club-description">Language and Communication Club.<br>Debates, Public Speaking, Creative Writing and Personality Development.<br></p>
+                        <div class="club-members">
+                            <i class="fas fa-users"></i>
+                            <span>337 members</span>
+                        </div>
+                        <div class="club-role">Active Member</div>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-btn">View Details</button>
+                            <button class="club-action-btn leave-btn">Leave Club</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="club-card">
+                    <div class="club-image" style="background-image: url('https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');">
+                        <span class="club-status">Member</span>
+                    </div>
+                    <div class="club-content">
+                        <h3 class="club-name">KhelSaathi</h3>
+                        <p class="club-description">Sports & Wellness Club.<br>Sports Tournaments, Physical Fitness, Yoga and Mental Health.<br></p>
+                        <div class="club-members">
+                            <i class="fas fa-users"></i>
+                            <span>213 members</span>
+                        </div>
+                        <div class="club-role">Event Coordinator</div>
+                        <div class="club-actions">
+                            <button class="club-action-btn view-btn">View Details</button>
+                            <button class="club-action-btn leave-btn">Leave Club</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section class="dashboard-section animate-on-scroll" id="dashboard">
+            <h2 class="section-title">Your Dashboard</h2>
+            <div class="dashboard-cards">
+                <div class="dashboard-card">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="dashboard-title">Clubs Joined</h3>
+                    <div class="dashboard-value">4</div>
+                    <p class="dashboard-description">Active memberships</p>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="dashboard-title">Upcoming Events</h3>
+                    <div class="dashboard-value">3</div>
+                    <p class="dashboard-description">This month</p>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="dashboard-title">Achievements</h3>
+                    <div class="dashboard-value">12</div>
+                    <p class="dashboard-description">Unlocked so far</p>
+                </div>
+                <div class="dashboard-card">
+                    <div class="dashboard-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="dashboard-title">Hours Volunteered</h3>
+                    <div class="dashboard-value">28</div>
+                    <p class="dashboard-description">This semester</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Profile dropdown toggle
+        const profileToggle = document.getElementById('profileToggle');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        profileToggle.addEventListener('click', () => {
+            profileDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!profileToggle.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Scroll to section function
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add click event to feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const link = this.querySelector('.feature-action');
+                if (link) {
+                    link.click();
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add click event to leave buttons
+        document.querySelectorAll('.leave-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (confirm('Are you sure you want to leave this club?')) {
+                    const clubCard = this.closest('.club-card');
+                    clubCard.style.opacity = '0.5';
+                    clubCard.style.transform = 'scale(0.95)';
+                    this.textContent = 'Left';
+                    this.disabled = true;
+                    this.style.backgroundColor = '#e2e8f0';
+                    this.style.color = '#718096';
+                    
+                    // Update the status badge
+                    const statusBadge = clubCard.querySelector('.club-status');
+                    statusBadge.textContent = 'Left';
+                    statusBadge.style.backgroundColor = '#718096';
+                    
+                    // Update the role badge
+                    const roleBadge = clubCard.querySelector('.club-role');
+                    roleBadge.textContent = 'Former Member';
+                    roleBadge.style.backgroundColor = '#e2e8f0';
+                    roleBadge.style.color = '#718096';
+                }
+            });
+        });
+
+        // Add click event to view buttons
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const clubName = this.closest('.club-card').querySelector('.club-name').textContent;
+                alert(`Viewing details for ${clubName}`);
+            });
+        });
+    </script>
+</body>
+</html>

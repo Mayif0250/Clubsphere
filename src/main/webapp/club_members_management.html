@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubSphere - Members Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #2563eb;
+            --secondary-blue: #3b82f6;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e40af;
+            --bg-grey: #f8f9fa;
+            --border-grey: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-grey);
+        }
+
+        /* Navbar */
+        .top-navbar {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white !important;
+        }
+
+        .club-name {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .page-header {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-grey);
+        }
+
+        .page-header h2 {
+            color: #1f2937;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            margin-bottom: 0;
+        }
+
+        /* Search and Filter Section */
+        .controls-section {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-grey);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 2.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-grey);
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-grey);
+            background: white;
+            color: #4b5563;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover {
+            background: var(--light-blue);
+            border-color: var(--primary-blue);
+            color: var(--primary-blue);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: white;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Stats Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-grey);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .stat-card h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #6b7280;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Members Table */
+        .members-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-grey);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .members-table {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .members-table thead {
+            background-color: var(--bg-grey);
+        }
+
+        .members-table thead th {
+            border: none;
+            color: #4b5563;
+            font-weight: 600;
+            padding: 1rem;
+            white-space: nowrap;
+        }
+
+        .members-table tbody tr {
+            transition: all 0.3s;
+            border-bottom: 1px solid var(--border-grey);
+        }
+
+        .members-table tbody tr:hover {
+            background-color: var(--light-blue);
+            transform: scale(1.01);
+        }
+
+        .members-table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .member-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .member-details h6 {
+            margin: 0;
+            color: #1f2937;
+            font-weight: 600;
+        }
+
+        .member-details small {
+            color: #6b7280;
+        }
+
+        .role-badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .role-president {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .role-secretary {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+
+        .role-core {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .role-member {
+            background: #e5e7eb;
+            color: #4b5563;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-promote {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-promote:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-remove {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-remove:hover {
+            background: #dc2626;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Cards */
+        .member-cards {
+            display: none;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-grey);
+            transition: all 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .member-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .member-card-body {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #9ca3af;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+
+            .page-header {
+                padding: 1.5rem;
+            }
+
+            .controls-section {
+                padding: 1rem;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-btn {
+                flex: 1;
+                text-align: center;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .members-table-view {
+                display: none;
+            }
+
+            .member-cards {
+                display: block;
+            }
+
+            .action-buttons {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .btn-action {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navbar -->
+    <nav class="navbar top-navbar">
+        <div class="container-fluid">
+            <span class="navbar-brand">
+                <i class="fas fa-users-cog"></i> ClubSphere
+            </span>
+            <span class="club-name">Artix Dashboard</span>
+            <div class="ms-auto">
+                <button class="btn btn-light btn-sm">
+                    <i class="fas fa-user"></i> Profile
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h2><i class="fas fa-users"></i> Members Management</h2>
+            <p>View, search, and manage all club members</p>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <h4 id="totalMembersCount">127</h4>
+                <p>Total Members</p>
+            </div>
+            <div class="stat-card">
+                <h4 id="coreMembersCount">18</h4>
+                <p>Core Members</p>
+            </div>
+            <div class="stat-card">
+                <h4 id="leadersCount">4</h4>
+                <p>Leaders</p>
+            </div>
+            <div class="stat-card">
+                <h4 id="newMembersCount">12</h4>
+                <p>New This Month</p>
+            </div>
+        </div>
+
+        <!-- Search and Filter Controls -->
+        <div class="controls-section">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" id="searchInput" 
+                               placeholder="Search by name or roll number..." 
+                               onkeyup="filterMembers()">
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <button class="btn btn-download" onclick="downloadCSV()">
+                        <i class="fas fa-download"></i> Download CSV
+                    </button>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <label class="mb-2" style="color: #6b7280; font-size: 0.9rem;">
+                        <i class="fas fa-filter"></i> Filter by Role:
+                    </label>
+                    <div class="filter-group">
+                        <button class="filter-btn active" onclick="filterByRole('all')">All Members</button>
+                        <button class="filter-btn" onclick="filterByRole('President')">President</button>
+                        <button class="filter-btn" onclick="filterByRole('Secretary')">Secretary</button>
+                        <button class="filter-btn" onclick="filterByRole('Core Member')">Core Members</button>
+                        <button class="filter-btn" onclick="filterByRole('Member')">Members</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Members Container -->
+        <div class="members-container">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="fas fa-list"></i> Members List 
+                    <span class="badge bg-primary" id="displayCount">127</span>
+                </h5>
+            </div>
+
+            <!-- Desktop Table View -->
+            <div class="table-responsive members-table-view">
+                <table class="members-table">
+                    <thead>
+                        <tr>
+                            <th>Member</th>
+                            <th>Role</th>
+                            <th>Joined Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="membersTableBody">
+                        <!-- Members will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Card View -->
+            <div class="member-cards" id="memberCards">
+                <!-- Member cards will be populated here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-users-slash"></i>
+                <h5>No members found</h5>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Promote Modal -->
+    <div class="modal fade" id="promoteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-arrow-up"></i> Promote Member
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Select new role for <strong id="promoteMemberName"></strong>:</p>
+                    <select class="form-select" id="newRoleSelect">
+                        <option value="President">President</option>
+                        <option value="Secretary">Secretary</option>
+                        <option value="Core Member">Core Member</option>
+                        <option value="Member">Member</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmPromote()">
+                        <i class="fas fa-check"></i> Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove Confirmation Modal -->
+    <div class="modal fade" id="removeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle"></i> Remove Member
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter: brightness(0) invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to remove <strong id="removeMemberName"></strong> from the club?</p>
+                    <p class="text-danger mb-0"><small>This action cannot be undone.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmRemove()">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample members data
+        let membersData = [
+            { id: 1, name: "Rajesh Kumar", rollNo: "E21001", role: "President", joinedDate: "Jan 2024", avatar: "RK" },
+            { id: 2, name: "Priya Sharma", rollNo: "E21045", role: "Secretary", joinedDate: "Jan 2024", avatar: "PS" },
+            { id: 3, name: "Arjun Reddy", rollNo: "E21089", role: "Core Member", joinedDate: "Feb 2024", avatar: "AR" },
+            { id: 4, name: "Sneha Patel", rollNo: "E21123", role: "Core Member", joinedDate: "Feb 2024", avatar: "SP" },
+            { id: 5, name: "Vikram Singh", rollNo: "E21156", role: "Core Member", joinedDate: "Mar 2024", avatar: "VS" },
+            { id: 6, name: "Ananya Rao", rollNo: "E21178", role: "Member", joinedDate: "Mar 2024", avatar: "AR" },
+            { id: 7, name: "Karthik Varma", rollNo: "E21201", role: "Member", joinedDate: "Apr 2024", avatar: "KV" },
+            { id: 8, name: "Divya Nair", rollNo: "E21234", role: "Member", joinedDate: "Apr 2024", avatar: "DN" },
+            { id: 9, name: "Rahul Mehta", rollNo: "E21267", role: "Member", joinedDate: "May 2024", avatar: "RM" },
+            { id: 10, name: "Sanjana Gupta", rollNo: "E21289", role: "Member", joinedDate: "May 2024", avatar: "SG" },
+            { id: 11, name: "Aditya Krishna", rollNo: "E21312", role: "Member", joinedDate: "Jun 2024", avatar: "AK" },
+            { id: 12, name: "Meera Iyer", rollNo: "E21345", role: "Member", joinedDate: "Jun 2024", avatar: "MI" },
+            { id: 13, name: "Rohan Das", rollNo: "E21378", role: "Core Member", joinedDate: "Jul 2024", avatar: "RD" },
+            { id: 14, name: "Kavya Reddy", rollNo: "E21401", role: "Member", joinedDate: "Jul 2024", avatar: "KR" },
+            { id: 15, name: "Nikhil Joshi", rollNo: "E21434", role: "Member", joinedDate: "Aug 2024", avatar: "NJ" }
+        ];
+
+        let filteredMembers = [...membersData];
+        let currentFilter = 'all';
+        let selectedMemberId = null;
+
+        // Initialize
+        function init() {
+            renderMembers();
+            updateStats();
+        }
+
+        // Render members
+        function renderMembers() {
+            const tableBody = document.getElementById('membersTableBody');
+            const cardsContainer = document.getElementById('memberCards');
+            const emptyState = document.getElementById('emptyState');
+            
+            tableBody.innerHTML = '';
+            cardsContainer.innerHTML = '';
+
+            if (filteredMembers.length === 0) {
+                emptyState.style.display = 'block';
+                document.querySelector('.members-table-view').style.display = 'none';
+                cardsContainer.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            document.querySelector('.members-table-view').style.display = 'block';
+            cardsContainer.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+
+            filteredMembers.forEach(member => {
+                // Table row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="member-info">
+                            <div class="member-avatar">${member.avatar}</div>
+                            <div class="member-details">
+                                <h6>${member.name}</h6>
+                                <small>${member.rollNo}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="role-badge role-${member.role.toLowerCase().replace(' ', '-')}">
+                            ${member.role}
+                        </span>
+                    </td>
+                    <td>${member.joinedDate}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-promote" onclick="openPromoteModal(${member.id})">
+                                <i class="fas fa-arrow-up"></i> Promote
+                            </button>
+                            <button class="btn-action btn-remove" onclick="openRemoveModal(${member.id})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+
+                // Mobile card
+                const card = document.createElement('div');
+                card.className = 'member-card';
+                card.innerHTML = `
+                    <div class="member-card-header">
+                        <div class="member-avatar">${member.avatar}</div>
+                        <div class="member-details">
+                            <h6>${member.name}</h6>
+                            <small>${member.rollNo}</small>
+                        </div>
+                    </div>
+                    <div class="member-card-body">
+                        <div class="info-row">
+                            <span class="info-label">Role:</span>
+                            <span class="role-badge role-${member.role.toLowerCase().replace(' ', '-')}">
+                                ${member.role}
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Joined:</span>
+                            <span>${member.joinedDate}</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-action btn-promote" onclick="openPromoteModal(${member.id})">
+                                <i class="fas fa-arrow-up"></i> Promote
+                            </button>
+                            <button class="btn-action btn-remove" onclick="openRemoveModal(${member.id})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cardsContainer.appendChild(card);
+            });
+
+            document.getElementById('displayCount').textContent = filteredMembers.length;
+        }
+
+        // Filter members by search
+        function filterMembers() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            filteredMembers = membersData.filter(member => {
+                const matchesSearch = member.name.toLowerCase().includes(searchTerm) || 
+                                     member.rollNo.toLowerCase().includes(searchTerm);
+                const matchesRole = currentFilter === 'all' || member.role === currentFilter;
+                return matchesSearch && matchesRole;
+            });
+
+            renderMembers();
+        }
+
+        // Filter by role
+        function filterByRole(role) {
+            currentFilter = role;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            filterMembers();
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalMembersCount').textContent = membersData.length;
+            document.getElementById('coreMembersCount').textContent = 
+                membersData.filter(m => m.role === 'Core Member').length;
+            document.getElementById('leadersCount').textContent = 
+                membersData.filter(m => m.role === 'President' || m.role === 'Secretary').length;
+            document.getElementById('newMembersCount').textContent = 
+                membersData.filter(m => m.joinedDate.includes('Oct') || m.joinedDate.includes('Sep')).length;
+        }
+
+        // Open promote modal
+        function openPromoteModal(memberId) {
+            selectedMemberId = memberId;
+            const member = membersData.find(m => m.id === memberId);
+            document.getElementById('promoteMemberName').textContent = member.name;
+            document.getElementById('newRoleSelect').value = member.role;
+            new bootstrap.Modal(document.getElementById('promoteModal')).show();
+        }
+
+        // Confirm promotion
+        function confirmPromote() {
+            const newRole = document.getElementById('newRoleSelect').value;
+            const member = membersData.find(m => m.id === selectedMemberId);
+            member.role = newRole;
+            
+            bootstrap.Modal.getInstance(document.getElementById('promoteModal')).hide();
+            renderMembers();
+            updateStats();
+            
+            // Show success message (you can implement a toast notification)
+            alert(`${member.name} has been promoted to ${newRole}`);
+        }
+
+        // Open remove modal
+        function openRemoveModal(memberId) {
+            selectedMemberId = memberId;
+            const member = membersData.find(m => m.id === memberId);
+            document.getElementById('removeMemberName').textContent = member.name;
+            new bootstrap.Modal(document.getElementById('removeModal')).show();
+        }
+
+        // Confirm removal
+        function confirmRemove() {
+            const member = membersData.find(m => m.id === selectedMemberId);
+            membersData = membersData.filter(m => m.id !== selectedMemberId);
+            filteredMembers = filteredMembers.filter(m => m.id !== selectedMemberId);
+            
+            bootstrap.Modal.getInstance(document.getElementById('removeModal')).hide();
+            renderMembers();
+            updateStats();
+            
+            alert(`${member.name} has been removed from the club`);
+        }
+
+        // Download CSV
+        function downloadCSV() {
+            const headers = ['Name', 'Roll Number', 'Role', 'Joined Date'];
+            const rows = filteredMembers.map(m => [m.name, m.rollNo, m.role, m.joinedDate]);
+            
+            let csvContent = headers.join(',') + '\n';
+            rows.forEach(row => {
+                csvContent += row.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'club_members_' + new Date().toISOString().split('T')[0] + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            const cardsContainer = document.getElementById('memberCards');
+            if (window.innerWidth <= 768) {
+                document.querySelector('.members-table-view').style.display = 'none';
+                cardsContainer.style.display = 'block';
+            } else {
+                document.querySelector('.members-table-view').style.display = 'block';
+                cardsContainer.style.display = 'none';
+            }
+        });
+
+        // Initialize on page load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>

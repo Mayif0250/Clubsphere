@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubSphere - My Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5e72e4;
+            --secondary-color: #825ee4;
+            --accent-color: #f5365c;
+            --dark-color: #32325d;
+            --light-color: #f4f5f7;
+            --border-color: #e9ecef;
+            --success-color: #2dce89;
+            --warning-color: #fb6340;
+            --info-color: #11cdef;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #e8ebff 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated background pattern */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(94, 114, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(130, 94, 228, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(245, 54, 92, 0.03) 0%, transparent 30%);
+            z-index: -1;
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 10px rgba(94, 114, 228, 0.3);
+            transition: transform 0.3s;
+        }
+        
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--gradient-1);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(94, 114, 228, 0.3);
+        }
+
+        .logo:hover {
+            transform: rotate(15deg) scale(1.05);
+        }
+
+        .project-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--dark-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(94, 114, 228, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background-color: rgba(94, 114, 228, 0.1);
+            color: var(--primary-color);
+        }
+
+        .notification-icon {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--gradient-2);
+            color: white;
+            font-size: 0.7rem;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(245, 54, 92, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(245, 54, 92, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 54, 92, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 54, 92, 0); }
+        }
+
+        .profile-dropdown {
+            position: relative;
+        }
+
+        .profile-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .profile-toggle:hover {
+            background-color: rgba(94, 114, 228, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 220px;
+            overflow: hidden;
+            display: none;
+            z-index: 101;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem 1.2rem;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: all 0.3s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--light-color);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 0.5rem 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .profile-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .profile-picture-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .profile-picture-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .profile-picture-container:hover .upload-overlay {
+            opacity: 1;
+        }
+
+        .upload-icon {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .upload-text {
+            color: var(--primary-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .upload-text:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Form Section */
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 70%;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.1);
+        }
+
+        .form-select {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.1);
+        }
+
+        .form-textarea {
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background-color: white;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.1);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 4px 15px rgba(94, 114, 228, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(94, 114, 228, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark-color);
+            border: 2px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light-color);
+            transform: translateY(-2px);
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(45, 206, 137, 0.3);
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .project-name {
+                font-size: 1.3rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .profile-title {
+                font-size: 2rem;
+            }
+
+            .profile-card {
+                padding: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <div class="logo">CS</div>
+            <div class="project-name">ClubSphere</div>
+        </div>
+        <div class="nav-links">
+            <a href="Student_homepage.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-book"></i>
+                <span>My Learnings</span>
+            </a>
+            <a href="#" class="nav-link notification-icon">
+                <i class="fas fa-bell"></i>
+                <span>Notifications</span>
+                <span class="notification-badge">3</span>
+            </a>
+            <div class="profile-dropdown">
+                <div class="profile-toggle" id="profileToggle">
+                    <img src="images/MayifShaik.jpeg" alt="Profile" class="profile-avatar">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="dropdown-menu" id="profileDropdown">
+                    <a href="profile.html" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <h1 class="profile-title">My Profile</h1>
+            <p class="profile-subtitle">Update your personal information and preferences</p>
+        </div>
+
+        <!-- Profile Card -->
+        <div class="profile-card">
+            <!-- Profile Picture Section -->
+            <div class="profile-picture-section">
+                <div class="profile-picture-container">
+                    <img src="images/MayifShaik.jpeg" alt="Profile Picture" class="profile-picture" id="profilePicture">
+                    <div class="upload-overlay" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-camera upload-icon"></i>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+                <label class="upload-text" onclick="document.getElementById('fileInput').click()">
+                    <i class="fas fa-upload"></i> Change Profile Picture
+                </label>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="form-section">
+            <form id="Personal Information">
+                <h2 class="section-title">Personal Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">First Name</label>
+                        <input type="text" id="firstName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">Last Name</label>
+                        <input type="text" id="lastName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="studentId">Student ID</label>
+                        <input type="text" id="studentId" class="form-input" readonly>
+                    </div>
+                </div>
+                </form>
+            </div>
+
+            <!-- Academic Information Section -->
+            <div class="form-section">
+                <h2 class="section-title">Academic Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="Branch">Branch</label>
+                        <select id="year" class="form-select">
+                            <option value="CSE" selected>Computer Science Engineering</option>
+                            <option value="ECE">Electronics and Communication Engineering</option>
+                            <option value="EEE">Electrical and Electronics Engineering</option>
+                            <option value="Civil">Civil Engineering</option>
+                            <option value="Mech">Mechanical Engineering</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="year">Current Year</label>
+                        <select id="year" class="form-select">
+                            <option value="freshman">1st Year</option>
+                            <option value="sophomore">2nd Year</option>
+                            <option value="junior" selected>3rd Year</option>
+                            <option value="senior">4th Year</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="class_section">Section</label>
+                        <select id="year" class="form-select">
+                            <option value="Section1">SECTION - 01</option>
+                            <option value="Section2">SECTION - 02</option>
+                            <option value="Section3" selected>SECTION - 03</option>
+                            <option value="Section4">SECTION - 04</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interests Section -->
+            <div class="form-section">
+                <h2 class="section-title">Interests & Preferences</h2>
+                <div class="form-group">
+                    <label class="form-label" for="interests">Interests</label>
+                    <textarea id="interests" class="form-textarea" placeholder="Tell us about your interests...">Photography, programming, environmental sustainability, public speaking, volunteer work</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="bio">Bio</label>
+                    <textarea id="bio" class="form-textarea" placeholder="Write a short bio about yourself...">Computer Science student with a passion for technology and creativity. Always looking for new opportunities to learn and grow.</textarea>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+            </div>
+        </div>
+        
+        <a href="Student_homepage.html" class="back-home">
+            <i class="fas fa-arrow-left"></i>
+            Back to Home
+        </a>
+        
+    </main>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i>
+        <span>Profile updated successfully!</span>
+    </div>
+
+    <script>
+        // Profile dropdown toggle
+        const profileToggle = document.getElementById('profileToggle');
+        const profileDropdown = document.getElementById('profileDropdown');
+
+        profileToggle.addEventListener('click', () => {
+            profileDropdown.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!profileToggle.contains(e.target) && !profileDropdown.contains(e.target)) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        // Profile picture upload
+        const fileInput = document.getElementById('fileInput');
+        const profilePicture = document.getElementById('profilePicture');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePicture.src = e.target.result;
+                    // Also update the navbar avatar
+                    document.querySelectorAll('.profile-avatar').forEach(avatar => {
+                        avatar.src = e.target.result;
+                    });
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Save profile function
+        function saveProfile() {
+            // Collect form data
+            const profileData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                graduationYear: document.getElementById('graduationYear').value,
+                major: document.getElementById('major').value,
+                minor: document.getElementById('minor').value,
+                year: document.getElementById('year').value,
+                interests: document.getElementById('interests').value,
+                bio: document.getElementById('bio').value
+            };
+
+            // Validate required fields
+            if (!profileData.firstName || !profileData.lastName || !profileData.email || !profileData.major) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Simulate saving to server
+            console.log('Saving profile data:', profileData);
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+
+            // Update the welcome message on the dashboard (in a real app, this would be stored in a database)
+            localStorage.setItem('userName', `${profileData.firstName} ${profileData.lastName}`);
+        }
+
+        // Load saved data on page load
+        window.addEventListener('load', () => {
+            const savedData = localStorage.getItem('profileData');
+            if (savedData) {
+                const profileData = JSON.parse(savedData);
+                // Populate form fields with saved data
+                Object.keys(profileData).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = profileData[key];
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

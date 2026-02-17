@@ -1,0 +1,5 @@
+db.url=jdbc:mysql://localhost:3306/practice
+db.user=root
+db.password=YOUR_PASSWORD_HERE
+email.from=your_email@gmail.com
+email.password=your_app_password
